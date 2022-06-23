@@ -1,5 +1,15 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCoffee, faBars, faPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCoffee,
+  faBox,
+  faTable,
+  faBars,
+  faPlus,
+  faHomeUser,
+  faBriefcase,
+  faPerson,
+  faCalendarCheck,
+} from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import { Outlet, Link } from "react-router-dom";
 
@@ -28,13 +38,43 @@ const Home = () => {
           />
         </div>
         <div>
-          <button className="btn btn-primary hidden mr-5 md:flex items-center ">
+          {/* <button className="btn btn-primary hidden mr-5 md:flex items-center ">
             <FontAwesomeIcon
               className="text-[16px] mr-2"
               icon={faPlus}
             ></FontAwesomeIcon>
             New Task
-          </button>
+          </button> */}
+          {/* <!-- The button to open modal --> */}
+          <label
+            for="my-modal"
+            class="btn btn-primary hidden mr-5 md:flex items-center"
+          >
+            <FontAwesomeIcon
+              className="text-[16px] mr-2"
+              icon={faPlus}
+            ></FontAwesomeIcon>
+            New Task
+          </label>
+
+          {/* <!-- Put this part before </body> tag --> */}
+          <input type="checkbox" id="my-modal" class="modal-toggle" />
+          <div class="modal">
+            <div class="modal-box">
+              <h3 class="font-bold text-lg">
+                Congratulations random Interner user!
+              </h3>
+              <p class="py-4">
+                You've been selected for a chance to get one year of
+                subscription to use Wikipedia for free!
+              </p>
+              <div class="modal-action">
+                <label for="my-modal" class="btn">
+                  Yay!
+                </label>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="flex-none gap-2">
           <div class="dropdown dropdown-end">
@@ -48,13 +88,16 @@ const Home = () => {
               class="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
             >
               <li>
-                <button className="btn btn-primary flex font-extrabold md:hidden items-center ">
+                <label
+                  for="my-modal"
+                  class="btn btn-primary md:hidden mr-5 flex items-center"
+                >
                   <FontAwesomeIcon
                     className="text-[16px] mr-2"
                     icon={faPlus}
                   ></FontAwesomeIcon>
                   New Task
-                </button>
+                </label>
               </li>
               <li>
                 <a>Settings</a>
@@ -78,10 +121,59 @@ const Home = () => {
           <ul class="menu p-4 overflow-y-auto w-80 bg-base-100 text-base-content">
             {/* <!-- Sidebar content here --> */}
             <li>
-              <Link to={"/today"}>Today</Link>
+              <Link to={"/all"}>
+                <FontAwesomeIcon
+                  className="text-[16px] mr-2"
+                  icon={faCalendarCheck}
+                ></FontAwesomeIcon>
+                All
+              </Link>
             </li>
             <li>
-              <Link to={"/archive"}>Archive</Link>
+              <Link to={"/today"}>
+                <FontAwesomeIcon
+                  className="text-[16px] mr-2"
+                  icon={faTable}
+                ></FontAwesomeIcon>
+                Today
+              </Link>
+            </li>
+            <li>
+              <Link to={"/archive"}>
+                <FontAwesomeIcon
+                  className="text-[16px] mr-2"
+                  icon={faBox}
+                ></FontAwesomeIcon>
+                Archive
+              </Link>
+            </li>
+            <div className="divider"></div>
+            <li>
+              <Link to={"/home"}>
+                <FontAwesomeIcon
+                  className="text-[16px] mr-2"
+                  icon={faHomeUser}
+                ></FontAwesomeIcon>
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link to={"/office"}>
+                <FontAwesomeIcon
+                  className="text-[16px] mr-2"
+                  icon={faBriefcase}
+                ></FontAwesomeIcon>
+                Office
+              </Link>
+            </li>
+            <li>
+              <Link to={"/personal"}>
+                <FontAwesomeIcon
+                  className="text-[16px] mr-2"
+                  icon={faPerson}
+                ></FontAwesomeIcon>
+                Personal
+              </Link>
             </li>
           </ul>
         </div>
