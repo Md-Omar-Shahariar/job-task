@@ -11,7 +11,6 @@ import auth from "../../firebase.init";
 const Login = () => {
   //   const [sendPasswordResetEmail, sending] = useSendPasswordResetEmail(auth);
   const location = useLocation();
-  const navigate = useNavigate();
   const [signInWithGoogle, gUser, gloading, gError] = useSignInWithGoogle(auth);
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);

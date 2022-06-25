@@ -19,6 +19,7 @@ import { async } from "@firebase/util";
 
 const Home = () => {
   const [a, setA] = useState(1);
+  const [r, setR] = useState(0);
 
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
@@ -42,10 +43,27 @@ const Home = () => {
 
     const task = {
       name: user.displayName,
+      email: user?.email,
       task: e.target.task.value,
       date: e.target.date.value,
       type: type,
+      checked: false,
     };
+
+    fetch("http://localhost:5000/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(task),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.insertedId) {
+          console.log(data);
+          setR(1);
+        }
+      });
     console.log(task);
   };
 
@@ -111,7 +129,7 @@ const Home = () => {
               </div>
             </>
           )}
-          {user && (
+          {user && r === 0 && (
             <>
               <input type="checkbox" id="my-modal" class="modal-toggle" />
               <div class="modal text-left font-medium">
@@ -239,7 +257,7 @@ const Home = () => {
 
       <div class="drawer drawer-mobile">
         <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
-        <div class="drawer-content flex flex-col items-center justify-center">
+        <div class="drawer-content flex flex-col ">
           {/* <!-- Page content here --> */}
           <Outlet></Outlet>
         </div>

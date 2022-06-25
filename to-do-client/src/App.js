@@ -21,6 +21,7 @@ function App() {
           <Route path="signUp" element={<SignUp></SignUp>}></Route>
           <Route path="archive" element={<Archive></Archive>}></Route>
           <Route path="all" element={<All></All>}></Route>
+          <Route path="all/:fetch" element={<All></All>}></Route>
           <Route path="home" element={<HomeToDo></HomeToDo>}></Route>
           <Route path="Office" element={<Office></Office>}></Route>
           <Route path="personal" element={<Personal></Personal>}></Route>
