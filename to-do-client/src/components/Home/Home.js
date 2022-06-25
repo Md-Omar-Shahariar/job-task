@@ -11,9 +11,19 @@ import {
   faCalendarCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useNavigate } from "react-router-dom";
+import auth from "../../firebase.init";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { signOut } from "firebase/auth";
+import { async } from "@firebase/util";
 
 const Home = () => {
+  const [user, loading, error] = useAuthState(auth);
+  const navigate = useNavigate();
+  const logOut = async () => {
+    await signOut(auth);
+  };
+
   return (
     <div className="bg-base-100 container mx-auto max-w-7xl">
       <div class="navbar  flex justify-between">
@@ -58,53 +68,84 @@ const Home = () => {
           </label>
 
           {/* <!-- Put this part before </body> tag --> */}
-          <input type="checkbox" id="my-modal" class="modal-toggle" />
-          <div class="modal">
-            <div class="modal-box">
-              <h3 class="font-bold text-lg">
-                Congratulations random Interner user!
-              </h3>
-              <p class="py-4">
-                You've been selected for a chance to get one year of
-                subscription to use Wikipedia for free!
-              </p>
-              <div class="modal-action">
-                <label for="my-modal" class="btn">
-                  Yay!
-                </label>
+          {!user && (
+            <>
+              <input type="checkbox" id="my-modal" class="modal-toggle" />
+              <div class="modal">
+                <div class="modal-box">
+                  <h3 class="font-bold text-lg">User Please Log-In</h3>
+
+                  <div class="modal-action">
+                    <button className="" onClick={() => navigate("/login")}>
+                      <label for="my-modal" class="btn">
+                        Login
+                      </label>
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            </>
+          )}
+          {user && (
+            <>
+              <input type="checkbox" id="my-modal" class="modal-toggle" />
+              <div class="modal">
+                <div class="modal-box">
+                  <h3 class="font-bold text-lg">
+                    Congratulations random Interner user!
+                  </h3>
+
+                  <p class="py-4">
+                    You've been selected for a chance to get one year of
+                    subscription to use Wikipedia for free!
+                  </p>
+                  <div class="modal-action">
+                    <label for="my-modal" class="btn">
+                      Yay!
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
         </div>
         <div class="flex-none gap-2">
           <div class="dropdown dropdown-end">
-            <label tabindex="0" class="btn btn-ghost btn-circle avatar">
-              <div class="w-10 rounded-full">
-                <img src="https://api.lorem.space/image/face?hash=33791" />
-              </div>
-            </label>
+            {user && (
+              <label tabindex="0" class="btn btn-ghost btn-circle avatar">
+                <div class="w-10 rounded-full">
+                  <img src="https://api.lorem.space/image/face?hash=33791" />
+                </div>
+              </label>
+            )}
             <ul
               tabindex="0"
               class="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
             >
               <li>
-                <label
-                  for="my-modal"
-                  class="btn btn-primary md:hidden mr-5 flex items-center"
-                >
-                  <FontAwesomeIcon
-                    className="text-[16px] mr-2"
-                    icon={faPlus}
-                  ></FontAwesomeIcon>
-                  New Task
-                </label>
+                <button>
+                  <label
+                    for="my-modal"
+                    class="btn btn-primary w-full md:hidden"
+                  >
+                    <FontAwesomeIcon
+                      className="text-[16px] mr-2"
+                      icon={faPlus}
+                    ></FontAwesomeIcon>
+                    New Task
+                  </label>
+                </button>
               </li>
-              <li>
-                <a>Settings</a>
-              </li>
-              <li>
-                <a>Logout</a>
-              </li>
+
+              {user && (
+                <li>
+                  <button onClick={logOut} className="">
+                    <label for="my-modal" class="btn btn-error w-full  ">
+                      Log-Out
+                    </label>
+                  </button>
+                </li>
+              )}
             </ul>
           </div>
         </div>

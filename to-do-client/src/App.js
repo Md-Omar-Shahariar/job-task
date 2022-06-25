@@ -8,6 +8,8 @@ import All from "./components/Home/All";
 import HomeToDo from "./components/Home/HomeToDo";
 import Office from "./components/Home/Office";
 import Personal from "./components/Home/Personal.js";
+import Login from "./components/Home/Login";
+import SignUp from "./components/Home/SignUp";
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home></Home>}>
           <Route path="today" element={<Today></Today>}></Route>
+          <Route path="login" element={<Login></Login>}></Route>
+          <Route path="signUp" element={<SignUp></SignUp>}></Route>
           <Route path="archive" element={<Archive></Archive>}></Route>
           <Route path="all" element={<All></All>}></Route>
           <Route path="home" element={<HomeToDo></HomeToDo>}></Route>
