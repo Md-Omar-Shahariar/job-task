@@ -10,7 +10,7 @@ import {
   faPerson,
   faCalendarCheck,
 } from "@fortawesome/free-solid-svg-icons";
-import React from "react";
+import React, { useState } from "react";
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import auth from "../../firebase.init";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -18,10 +18,35 @@ import { signOut } from "firebase/auth";
 import { async } from "@firebase/util";
 
 const Home = () => {
+  const [a, setA] = useState(1);
+
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
   const logOut = async () => {
     await signOut(auth);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // console.log(e);
+    // console.log(e.target.task.value);
+    // console.log(e.target.date.value);
+    let type;
+    if (a === 1) {
+      type = "Personal";
+    } else if (a === 2) {
+      type = "Home";
+    } else {
+      type = "Office";
+    }
+
+    const task = {
+      name: user.displayName,
+      task: e.target.task.value,
+      date: e.target.date.value,
+      type: type,
+    };
+    console.log(task);
   };
 
   return (
@@ -89,20 +114,81 @@ const Home = () => {
           {user && (
             <>
               <input type="checkbox" id="my-modal" class="modal-toggle" />
-              <div class="modal">
-                <div class="modal-box">
-                  <h3 class="font-bold text-lg">
-                    Congratulations random Interner user!
-                  </h3>
-
-                  <p class="py-4">
-                    You've been selected for a chance to get one year of
-                    subscription to use Wikipedia for free!
-                  </p>
-                  <div class="modal-action">
-                    <label for="my-modal" class="btn">
-                      Yay!
-                    </label>
+              <div class="modal text-left font-medium">
+                <div class="modal-box ">
+                  <div class="modal-action flex flex-col items-start ">
+                    <form action="" onSubmit={handleSubmit} className="w-full">
+                      <h2 className="text-2xl pb-3">Add Task</h2>
+                      <label for="task" className="text-start">
+                        What are you upto?
+                      </label>
+                      <br />
+                      <input
+                        id="task"
+                        name="task"
+                        className="w-full border border-primary h-8 px-4 rounded-lg my-3"
+                        type="text"
+                        required
+                      />
+                      <br />
+                      <label for="date">When do you want to complete?</label>
+                      <br />
+                      <input
+                        className="w-full border border-primary h-8 px-4 rounded-lg my-3"
+                        name="date"
+                        id="date"
+                        type="date"
+                        required
+                      />
+                      <label for="btn" className="">
+                        Tags
+                      </label>
+                      <div class="btn-group my-4 " id="btn">
+                        <input
+                          onClick={() => setA(1)}
+                          type="button"
+                          value="Personal"
+                          name="btn1"
+                          className={
+                            a === 1
+                              ? `btn btn-outline btn-active`
+                              : `btn btn-outline `
+                          }
+                        />
+                        <input
+                          onClick={() => setA(2)}
+                          type="button"
+                          value="Home"
+                          name="btn1"
+                          className={
+                            a === 2
+                              ? `btn btn-outline btn-active`
+                              : `btn btn-outline `
+                          }
+                        />
+                        <input
+                          onClick={() => setA(3)}
+                          type="button"
+                          value="Office"
+                          name="btn1"
+                          className={
+                            a === 3
+                              ? `btn btn-outline btn-active`
+                              : `btn btn-outline `
+                          }
+                        />
+                      </div>
+                      <div className="flex">
+                        <input
+                          type="submit"
+                          value="Add"
+                          className="btn flex-1"
+                        />
+                        <label className="" for="my-modal" class="btn flex-1 ">
+                          Cancel
+                        </label>
+                      </div>
+                    </form>
                   </div>
                 </div>
               </div>
